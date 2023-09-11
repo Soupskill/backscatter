@@ -1,0 +1,55 @@
+Comment: J.A.Davies et al. "Quantitative calibration of intense (a,a)    
+elastic scattering resonances for 12C at 5.50 - 5.80 MeV and for 
+16O at 7.30 - 7.65 MeV" - Nucl.Instr.& Meth. B85(1994)28.
+    Extremely strong (a,a) elastic scaftering resonances - more
+than 100 times the Rufherford value - occur in 160 at 7.35-7.65 keV 
+and in 12C at 5.50-5.80 MeV, thus allowing the normal RBS technique 
+to be extended to low-Z components, such as oxygen and carbon. Both 
+resonances have been calibrated over the appropriate 300 keV energy 
+region with an overall accuracy of ~4%.Some recent examples of their 
+use in profiling oxygen and carbon in various substrates are given.
+File created by R33 Manager version 0.21
+
+Version: R33
+Source: J.A.Davies+(1994), Jour. Nucl. Instrum. Methods in Physics Res., Sect.B, Vol.85, p.28
+Name: 
+Serial Number: 
+SubFile: 
+X4Number: C0913003 
+Reaction: 12C(a,a0)12C
+Distribution: Energy
+Composition: 
+Masses:    4.000,   12.000,    4.000,   12.000
+Zeds: 2, 6, 2, 6
+Qvalue:      0.00,      0.00,      0.00,      0.00,      0.00
+Theta:    170.00
+Sigfactors: 1.00, 0.00
+Enfactors: 1000.00, 0.00, 0.00, 0.00
+Units: mb
+Data:
+    4.100,  0.000,  65.000, 0.000
+    4.280,  0.000, 450.000, 0.000
+    4.290,  0.000, 611.000, 0.000
+    4.300,  0.000, 670.000, 0.000
+    4.310,  0.000, 729.000, 0.000
+    4.320,  0.000, 731.000, 0.000
+    4.340,  0.000, 601.000, 0.000
+    4.350,  0.000, 451.000, 0.000
+    4.500,  0.000, 170.000, 0.000
+    5.500,  0.000, 493.000, 0.000
+    5.550,  0.000, 511.000, 0.000
+    5.600,  0.000, 545.000, 0.000
+    5.650,  0.000, 563.000, 0.000
+    5.700,  0.000, 580.000, 0.000
+    5.750,  0.000, 585.000, 0.000
+    5.800,  0.000, 508.000, 0.000
+    5.850,  0.000, 207.000, 0.000
+    5.880,  0.000, 141.000, 0.000
+    7.500,  0.000, 120.000, 0.000
+    7.550,  0.000, 129.000, 0.000
+    7.600,  0.000, 132.000, 0.000
+    7.620,  0.000, 137.000, 0.000
+    7.640,  0.000, 144.000, 0.000
+EndData:
+
+

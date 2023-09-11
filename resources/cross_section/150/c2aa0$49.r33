@@ -1,0 +1,38 @@
+Comment:    Automatically converted from EXFOR
+            by IAEA-NDS EXFOR Web-Retrieval System (v-2008/11/03)
+            "C-12-alpha elastic scattering and states of O-16
+             between 9.16 and 12.11-MeV."
+            G.J.Clark,  D.J.Sullivan,  P.B.Treacy
+            EXFOR: O0888002    Created: 2001-06-28  Updated: 2003-04-23
+            X4Reaction:6-C-12(A,EL)6-C-12,,DA; X4Points:256
+            Data converted from C.M. to Lab. 
+            Theta groupping interval=3.0 deg.
+
+Version:      R33
+X4Number:     O0888002
+Source:       G.J.Clark+(1968), Jour. Nuclear Physics, Section A, Vol.110, p.481
+Reaction:     12C(a,a0)12C
+Distribution: Energy
+Sigfactors:   1.00, 0.00
+Enfactors:    1.00, 0.00, 0.00, 0.00
+Units:        mb
+Composition:
+Masses:       4.0, 12.0, 4.0, 12.0
+Zeds:         2, 6, 2, 6
+Qvalue:       0.0, 0.00, 0.00, 0.00, 0.00
+Theta:        149.3
+Data:
+ 2800.00,     0.00,   8.6722,   0.2602
+ 3100.00,     0.00,  16.4028,   0.4921
+ 3400.00,     0.00,  69.3773,   2.0813
+ 3800.00,     0.00,  70.3684,   2.1111
+ 4000.00,     0.00,  67.8906,   2.0367
+ 4745.00,     0.00, 131.3213,   3.9396
+ 5135.00,     0.00, 187.3187,   5.6196
+ 5165.00,     0.00, 192.2742,   5.7682
+ 5670.00,     0.00, 346.8865,  10.4066
+ 6000.00,     0.00, 118.9325,    3.568
+ 6250.00,     0.00, 105.0571,   3.1517
+ 6510.00,     0.00,  68.8817,   2.0665
+EndData:
+

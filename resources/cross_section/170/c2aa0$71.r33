@@ -1,0 +1,46 @@
+Comment:    Automatically converted from EXFOR
+            by IAEA-NDS EXFOR Web-Retrieval System (v-2008/11/03)
+            "C-12(A,A)C-12 resonant elastic scattering at 5.7 MeV
+             as a tool for carbon quantification in silicon-based
+             heterostructures."
+            M.Berti,  D.De Salvador,  A.V.Drigo,  F.Romanato, 
+            A.Sambo,  S.Zerlauth,  J.Stangl,  F.Schaffler, 
+             G.Bauer
+            EXFOR: O0890002    Created: 2001-07-04  Updated: 2003-04-24
+            X4Reaction:6-C-12(A,EL)6-C-12,,DA,,RTH; X4Points:20
+
+Version:      R33
+X4Number:     O0890002
+Source:       M.Berti+(1998), Jour. Nucl. Instrum. Methods in Physics Res., Sect.B, Vol.143, p.357
+Reaction:     12C(a,a0)12C
+Distribution: Energy
+Sigfactors:   1.00, 0.00
+Enfactors:    1.00, 0.00, 0.00, 0.00
+Units:        rr
+Composition:
+Masses:       4.0, 12.0, 4.0, 12.0
+Zeds:         2, 6, 2, 6
+Qvalue:       0.0, 0.00, 0.00, 0.00, 0.00
+Theta:        170
+Data:
+ 5412.00,     0.00,    91.60,     2.20
+ 5463.00,     0.00,   100.00,     2.70
+ 5513.00,     0.00,   107.00,     2.70
+ 5563.00,     0.00,   115.00,     2.70
+ 5613.00,     0.00,   120.50,     3.50
+ 5638.00,     0.00,   125.00,     2.90
+ 5653.00,     0.00,   127.00,     3.00
+ 5664.00,     0.00,   126.00,     2.70
+ 5673.00,     0.00,   129.00,     3.00
+ 5689.00,     0.00,   130.00,     3.00
+ 5714.00,     0.00,   131.00,     3.00
+ 5739.00,     0.00,   129.00,     3.00
+ 5754.00,     0.00,   128.00,     2.90
+ 5764.00,     0.00,   121.00,     3.00
+ 5774.00,     0.00,   114.00,     2.90
+ 5789.00,     0.00,    93.70,     2.00
+ 5814.00,     0.00,    49.60,     0.60
+ 5864.00,     0.00,    35.30,     0.60
+ 5964.00,     0.00,    67.90,     0.90
+EndData:
+
