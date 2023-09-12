@@ -1,4 +1,6 @@
 import numpy as np
+from queue import Queue
+from threading import Thread
 from typing import List, Tuple, Dict
 from src.Stopping import EnergyAfterStopping, equation, inverseIntegrate
 from src.Detector import Detector
@@ -33,6 +35,7 @@ class Simulation:
         self._straggling = self.beam.EnergySpread
         self._yeild_R: Tuple[np.ndarray,] = None
         self.dxerr: Tuple[np.ndarray] = None
+        self.queueToSpectra = Queue(50)
         self.initGeometry()
         self.initSpectra()
         self.initCrossSection()
@@ -84,18 +87,25 @@ class Simulation:
     def run(self) -> Dict[str, np.ndarray]:
         """Returns dict where key is name of isotope (12C for example)
           value contains array of ADC channels counts"""
-        EnergyAtFrontOfLayers = []
+        EnergyAtFrontOfLayers: List[float] = []
         EnergyAtFrontOfLayers.append(self.beam.Energy)
+        threads: List[Thread] = []
 
         for layerNumber, layer in enumerate(self.geometry.target):
             layout = self.layerMapping(EnergyAtFrontOfLayers, layerNumber)
             for element in layer.getComponents():
                 for isotope in element[0].isotopes:
-                    self.calculatePartialSpectrum(
+                    threads.append(Thread(target=self.calculatePartialSpectrum, args=(
                         layout,
                         isotope,
                         element[1],
-                        layerNumber)
+                        layerNumber)))
+        [thread.start() for thread in threads]
+        [thread.join() for thread in threads]
+        
+        while not self.queueToSpectra.empty():
+            isotope_name, spectra = self.queueToSpectra.get()
+            self.partialSpectra[isotope_name] = spectra
 
         return self.partialSpectra
 
@@ -198,11 +208,15 @@ class Simulation:
         YieldChannels[np.isnan(YieldChannels)] = 0
 
         if self.detector.resolution > 2:
-            self.partialSpectra[str(isotope)] += np.convolve(
-                self.detector.responce,
-                YieldChannels, mode='same')
+            self.queueToSpectra.put(
+                (str(isotope), 
+                 np.convolve(
+                    self.detector.responce,
+                    YieldChannels, mode='same')
+                ))
         else:
-            self.partialSpectra[str(isotope)] += YieldChannels
+            self.queueToSpectra.put(
+                (str(isotope), YieldChannels))
 
     def layerMapping(self,
                      EnergyAtFrontOfLayers: List[float],
