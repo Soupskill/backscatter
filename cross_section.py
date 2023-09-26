@@ -3,6 +3,7 @@ import numpy as np
 import os
 import re
 import glob
+import logging
 from typing import List
 from scipy.optimize import minimize
 np.float_ = np.float32
@@ -24,18 +25,27 @@ class Spectrum:
         self.energy = energy
         self.data = data
 
+def applyAcceleratorCalibration(energy: float, 
+                                linear=1., 
+                                offset=0., 
+                                charge_state=2, 
+                                extraction_v=20., ):
+    return ((energy - extraction_v) / (charge_state + 1) * linear - offset) *\
+            (charge_state + 1) + extraction_v
 
-def collectSpectra(path: str):
-
-    spectra = []
-    if not os.path.isdir(path): return
-    for fname in glob.glob(f'{path}*.mpa'):
-
-        mpa = MPAFile('', fname)
-        energy = float(re.findall(r'\d{4}', fname)[0])
-        spectra.append(Spectrum(energy, mpa.data[0][:,1])) 
+def loadSpectrum(fname) -> Spectrum:
+    mpa = MPAFile('', fname)
+    energy = float(re.findall(r'E=\d{4}', fname)[0].strip('E='))
+    energy = applyAcceleratorCalibration(energy, 0.9975, -1.4)
+    return Spectrum(energy, mpa.data[DETID][:,1]) 
     
-    return spectra
+
+def collectSpectra(path: str) -> List[Spectrum]:
+
+    if not os.path.isdir(path): return
+    with ProcessPoolExecutor(os.cpu_count()) as pool:        
+        return list(pool.map(loadSpectrum, glob.glob(f'{path}*.mpa')))
+
 
 def createSimulations(spectra: List[Spectrum]) -> List[Simulation]:
 
@@ -89,7 +99,7 @@ def calculateChi2(simulation: Simulation, spectrum: Spectrum) -> float:
     return np.sum((theor_spectrum[thres - 10: thres - 40] - spectrum.data[thres - 10: thres - 40]) ** 2)
     
 
-def mergeChi2(simulations: List[Simulation], spectra: List[Spectrum]) -> float:
+def getTotalChi2(simulations: List[Simulation], spectra: List[Spectrum]) -> float:
 
     contex = zip(simulations, spectra)
     with ProcessPoolExecutor(os.cpu_count()) as processPool:
@@ -106,8 +116,9 @@ def update_task(cross_section, simulations: List[Simulation], spectra: List[Spec
             ENERGY,
             cross_section
         )
+        simulation.initCrossSection()
+    return getTotalChi2(simulations, spectra)    
     
-    return mergeChi2
 
 
 
