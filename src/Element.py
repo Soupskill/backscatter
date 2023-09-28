@@ -34,8 +34,10 @@ class Beam(VIsotope):
 
     @Energy.setter
     def Energy(self, E: float):
-        self._energy = E    
-
+        self._energy = E
+    
+    def __repr__(self) -> str:
+        return f'Beam {self.symbol}-{self.A}'
 
 class Isotope(VIsotope):
 

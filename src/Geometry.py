@@ -42,3 +42,7 @@ class Geometry:
     def addLayerToFoils(self, name: str, thickness: float):
         self.foils.append(Layer(name, thickness, self._foilcount))
         self._foilcount += 1
+    
+    def __repr__(self) -> str:
+        
+        return f'Geometry:\n\talpha {self.alpha}\n\ttheta {self.theta}\n\ttarget {[target.name for target in self.target]}'

@@ -1,12 +1,16 @@
 #! python3
 import numpy as np
+import time
 np.float_ = np.float32
 from matplotlib import pyplot as plt
 from src.Detector import Detector
 from src.Element import Beam
 from src.Geometry import Geometry
 from src.Simulation import Simulation
+from queue import Queue
+from threading import Thread
 
+queue = Queue(10)
 
 def createSimulation() -> Simulation:
 
@@ -44,28 +48,15 @@ def createSimulation() -> Simulation:
 
     return simulation
 
-
-def main():
+def worker():
 
     simulation = createSimulation()
-    # zeroing partial spectra
     simulation.initSpectra()
-    
     res = simulation.run()
-    # keys in obtained result is str for example '12C', '56Fe'
-    for isotope in res.keys():
-        plt.plot(simulation.detector.EnergyChannels,
-                 res[isotope],
-                 label=isotope)
-
-    plt.legend()
-    plt.xlabel("E, keV")
-    plt.ylabel("N")
-    plt.xlim(0, 1400)
-    plt.ylim(0, 20000)
+    plt.plot(res['12C'])
     plt.show()
-
-
+    
 if __name__ == "__main__":
 
-    main()
+    
+    worker()

@@ -35,7 +35,6 @@ class Simulation:
         self._straggling = self.beam.EnergySpread
         self._yeild_R: Tuple[np.ndarray,] = None
         self.dxerr: Tuple[np.ndarray] = None
-        self.queueToSpectra = Queue(50)
         self.initGeometry()
         self.initSpectra()
         self.initCrossSection()
@@ -89,24 +88,18 @@ class Simulation:
           value contains array of ADC channels counts"""
         EnergyAtFrontOfLayers: List[float] = []
         EnergyAtFrontOfLayers.append(self.beam.Energy)
-        threads: List[Thread] = []
+        
 
         for layerNumber, layer in enumerate(self.geometry.target):
             layout = self.layerMapping(EnergyAtFrontOfLayers, layerNumber)
             for element in layer.getComponents():
                 for isotope in element[0].isotopes:
-                    threads.append(Thread(target=self.calculatePartialSpectrum, args=(
+                    self.calculatePartialSpectrum(
                         layout,
                         isotope,
                         element[1],
-                        layerNumber)))
-        [thread.start() for thread in threads]
-        [thread.join() for thread in threads]
-        
-        while not self.queueToSpectra.empty():
-            isotope_name, spectra = self.queueToSpectra.get()
-            self.partialSpectra[isotope_name] = spectra
-
+                        layerNumber)
+                    
         return self.partialSpectra
 
     def calculatePartialSpectrum(
@@ -208,15 +201,11 @@ class Simulation:
         YieldChannels[np.isnan(YieldChannels)] = 0
 
         if self.detector.resolution > 2:
-            self.queueToSpectra.put(
-                (str(isotope), 
-                 np.convolve(
+            self.partialSpectra[str(isotope)] += np.convolve(
                     self.detector.responce,
                     YieldChannels, mode='same')
-                ))
         else:
-            self.queueToSpectra.put(
-                (str(isotope), YieldChannels))
+            self.partialSpectra[str(isotope)] += YieldChannels
 
     def layerMapping(self,
                      EnergyAtFrontOfLayers: List[float],
@@ -278,8 +267,9 @@ class Simulation:
 
         matrix = get_spread_responce(np.float32(energyDiscrete), straggling, k)
         Yield = np.dot(np.float32(matrix), np.float32(Yield))
-
+        Yield[np.isnan(Yield)] = 0
         if True in np.isnan(Yield):
+            
             raise ValueError('Straggling matrix contains nan values')
 
         return Yield
@@ -298,3 +288,6 @@ class Simulation:
                                     foil.stoppingParams,
                                     E_THRESHOLD)
         return E3
+
+    def __repr__(self) -> str:
+        return f'simlulation: \n<{self.geometry}>\n\tbeam<{self.beam}>'
